@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { FiMail, FiLogIn, FiLock } from 'react-icons/fi';
+import { FiArrowLeft, FiUser, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
@@ -8,30 +8,29 @@ import Button from '../../components/Botao';
 
 import { Container, Content, Background } from './style';
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
 const handleSubmit = useCallback((data:object): void => {
     console.log(data);
 }, []);
 const formRef = useRef<FormHandles>(null);
 return(
   <Container>
+    <Background/>
     <Content>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Faça seu login</h1>
+        <h1>Faça seu cadastro</h1>
 
-        <Input name="email" icon={FiMail} placeholder="E-mail" />
+        <Input name="email" icon={FiUser} placeholder="E-mail" />
         <Input name="senha" icon={FiLock} type="password" placeholder="Senha" />
 
-        <Button type="submit">Entrar</Button>
+        <Button type="submit">Cadastrar</Button>
 
-        <a href="teste">Esqueci minha senha</a>
       </Form>
       <a href="teste">
-        <FiLogIn/>
-        Criar conta</a>
+        <FiArrowLeft/>
+        Voltar para o login</a>
     </Content>
-    <Background/>
   </Container>
 )};
 
-export default SignIn;
+export default SignUp;

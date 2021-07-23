@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import Input from '../../components/Input';
-import Button from '../../components/Botao';
+import Button from '../../components/Button';
 
 import { Container, Content, Background } from './style';
 

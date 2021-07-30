@@ -3,13 +3,21 @@ import React from "react";
 import GlobalStyle from "./style/global";
 
 import SignIn from "./pages/SignIn";
-import SignUp from './pages/SingUp'
+
+import {AuthProvider} from "./context/AuthContext";
+
+import ToastContainer from "./ToastContainer";
 
 const App: React.FC = () => {
   return (
     <>
-      <SignUp/>
-      <GlobalStyle/>
+      <AuthProvider>
+        <SignIn />
+      </AuthProvider>
+
+      <ToastContainer/>
+
+      <GlobalStyle />
     </>
   );
 };

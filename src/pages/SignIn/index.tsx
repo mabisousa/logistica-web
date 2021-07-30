@@ -1,37 +1,73 @@
-import React, { useRef, useCallback } from 'react';
-import { FiMail, FiLogIn, FiLock } from 'react-icons/fi';
-import { Form } from '@unform/web';
-import { FormHandles } from '@unform/core';
+import React, {useRef, useCallback, useContext} from "react";
+import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
+import { FormHandles } from "@unform/core";
+import { Form } from "@unform/web";
+import * as Yup from "yup";
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import { AuthContext } from "../../context/AuthContext";
+import getValidationErrors from "../../utils/getValidationErrors";
 
-import { Container, Content, Background } from './style';
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+
+import { Container, Content, Background } from "./style";
+
+interface SingInFormData {
+  email: string;
+  senha: string;
+}
 
 const SignIn: React.FC = () => {
-const handleSubmit = useCallback((data:object): void => {
-    console.log(data);
-}, []);
-const formRef = useRef<FormHandles>(null);
-return(
-  <Container>
-    <Content>
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <h1>Faça seu login</h1>
+  const formRef = useRef<FormHandles>(null);
 
-        <Input name="email" icon={FiMail} placeholder="E-mail" />
-        <Input name="senha" icon={FiLock} type="password" placeholder="Senha" />
+  const { singIn } = useContext(AuthContext);
 
-        <Button type="submit">Entrar</Button>
+  const handleSubmit = useCallback(async (data: SingInFormData) => {
+    try {
+      formRef.current?.setErrors({});
 
-        <a href="teste">Esqueci minha senha</a>
-      </Form>
-      <a href="teste">
-        <FiLogIn/>
-        Criar conta</a>
-    </Content>
-    <Background/>
-  </Container>
-)};
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required("E-mail obrigatório")
+          .email("Informe um e-mail válido"),
+        senha: Yup.string().required("Senha obrigatória"),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      singIn({
+        email: data.email,
+        senha: data.senha
+      })
+    } catch (err) {
+      const errors = getValidationErrors(err);
+      formRef.current?.setErrors(errors);
+    }
+  }, [singIn]);
+
+  return(
+    <Container>
+      <Content>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Faça seu login</h1>
+
+          <Input icon={FiMail} name="email" placeholder="E-mail" />
+          <Input icon={FiLock} name="senha" type="password" placeholder="Senha" />
+
+          <Button type="submit">Entrar</Button>
+
+          <a href="teste">Esqueci minha senha</a>
+        </Form>
+
+        <a href="teste">
+          <FiLogIn />
+          Criar conta
+        </a>
+      </Content>
+      <Background />
+    </Container>
+  )};
 
 export default SignIn;

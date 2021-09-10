@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
         <h1>dashboard</h1>
     {pessoas.map((pessoa) => (
         <div>
-            <p>{pessoas.map((pessoa) => pessoa.nome)}</p>
+            <p>{pessoa.nome}</p>
         </div>
     ))}
         

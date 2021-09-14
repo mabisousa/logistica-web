@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container } from './style'
-import api from "../../service/api"
+import { Container } from "./style";
+import api from "../../service/api";
+import { Link } from "react-router-dom";
 
 interface Pessoa{
     nome: string;
@@ -17,15 +18,21 @@ const Dashboard: React.FC = () => {
     }, [])
 
     return (
-    <Container>
-        <h1>dashboard</h1>
-    {pessoas.map((pessoa) => (
-        <div>
-            <p>{pessoa.nome}</p>
-        </div>
-    ))}
-        
-    </Container>
+        <>
+            <Container>
+                <h1>dashboard</h1>
+                {pessoas.map((pessoa) => (
+                    <div>
+                        <p>{pessoa.nome}</p>
+                    </div>
+                ))}
+                <Link to="cadastro">
+                    Cadastro
+                </Link>
+            </Container>
+
+            
+        </>
     )
 }
 
